@@ -326,8 +326,10 @@ public class PlayerActivity extends AppCompatActivity
             albumTitle = metadata.getString(MediaMetadataCompat.METADATA_KEY_ALBUM);
             albumID = Integer.parseInt(metadata.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID));
             txtAlbum.setText(albumTitle);
+            txtAlbum.setContentDescription("Book: " + albumTitle);
             txtAlbum.setSelected(true);
             txtAuthor.setText(metadata.getString(MediaMetadataCompat.METADATA_KEY_ARTIST));
+            txtNavAlbum.setContentDescription("Author: " + metadata.getString(MediaMetadataCompat.METADATA_KEY_ARTIST));
             txtAuthor.setSelected(true);
 
             if(sbSeekBar.getMax() != (int) metadata.getLong(MediaMetadataCompat.METADATA_KEY_DURATION)) {
@@ -380,7 +382,9 @@ public class PlayerActivity extends AppCompatActivity
 
                 if(txtNavTitle != null) {
                     txtNavTitle.setText(metadata.getString(MediaMetadataCompat.METADATA_KEY_TITLE));
+                    txtNavTitle.setContentDescription("Title: " + metadata.getString(MediaMetadataCompat.METADATA_KEY_TITLE));
                     txtNavAlbum.setText(metadata.getString(MediaMetadataCompat.METADATA_KEY_ALBUM));
+                    txtNavAlbum.setContentDescription("Album: " + metadata.getString(MediaMetadataCompat.METADATA_KEY_ALBUM));
 
                     if(userArt != null && !userArt.equals("")) {
                         Glide
@@ -401,6 +405,7 @@ public class PlayerActivity extends AppCompatActivity
                             metadata.getLong(MediaMetadataCompat.METADATA_KEY_NUM_TRACKS));
 
                     txtNumFiles.setText(numFileText);
+                    txtNumFiles.setContentDescription(numFileText);
 
                     String percentText = String.format(getApplicationContext().getString(R.string.format_percentage_complete),
                             Utilities.getPercentageString(Utilities.getPercentage(
@@ -409,6 +414,7 @@ public class PlayerActivity extends AppCompatActivity
                             )
                     );
                     txtPercentage.setText(percentText);
+                    txtPercentage.setContentDescription(percentText);
                 }
             }
 
@@ -435,6 +441,7 @@ public class PlayerActivity extends AppCompatActivity
             if(trackProgress != -1) {
                 sbSeekBar.setProgress(trackProgress);
                 txtSeekbarText.setText(Utilities.milliSecondsToTime(trackProgress));
+                txtSeekbarText.setContentDescription("Current Track Progress: " + Utilities.milliSecondsToTime(trackProgress));
             } else {
                 sbSeekBar.setProgress(0);
                 txtSeekbarText.setText(Utilities.milliSecondsToTime(0));
@@ -444,7 +451,7 @@ public class PlayerActivity extends AppCompatActivity
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     if(!mTabletMode) {
-                        drawer.closeDrawer(Gravity.LEFT);
+                        drawer.closeDrawer(Gravity.START);
                     }
                     boolean wasPlaying = true;
                     if(mMediaService.isPlaying()) {

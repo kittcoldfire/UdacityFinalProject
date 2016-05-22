@@ -45,4 +45,13 @@
     <string name="empty_nav_audiobook"></string>
     <string name="empty_nav_file">No Files Selected</string>
     <string name="empty_nav_percent">Not Started.</string>
+
+    <!-- Content Descriptions -->
+    <string name="cd_coverart_edittext">Text field, input value to search for cover art.</string>
+    <string name="cd_coverart_search">Search</string>
+    <string name="cd_playpause">Toggle between play and pause</string>
+    <string name="cd_rewindbig">Rewind 1 minute</string>
+    <string name="cd_rewindsmall">Rewind 10 seconds</string>
+    <string name="cd_fastforwardbig">Fastforward 1 minute</string>
+    <string name="cd_fastforwardsmall">Fastforward 10 seconds</string>
 </resources>
