@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Default widget margin on post 14 devices -->
+    <dimen name="widget_margin">0dp</dimen>
+</resources>

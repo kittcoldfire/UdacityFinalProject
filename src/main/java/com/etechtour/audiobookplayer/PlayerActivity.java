@@ -27,7 +27,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -329,7 +328,7 @@ public class PlayerActivity extends AppCompatActivity
             txtAlbum.setContentDescription("Book: " + albumTitle);
             txtAlbum.setSelected(true);
             txtAuthor.setText(metadata.getString(MediaMetadataCompat.METADATA_KEY_ARTIST));
-            txtNavAlbum.setContentDescription("Author: " + metadata.getString(MediaMetadataCompat.METADATA_KEY_ARTIST));
+            txtAuthor.setContentDescription("Author: " + metadata.getString(MediaMetadataCompat.METADATA_KEY_ARTIST));
             txtAuthor.setSelected(true);
 
             if(sbSeekBar.getMax() != (int) metadata.getLong(MediaMetadataCompat.METADATA_KEY_DURATION)) {
@@ -451,7 +450,7 @@ public class PlayerActivity extends AppCompatActivity
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     if(!mTabletMode) {
-                        drawer.closeDrawer(Gravity.START);
+                        drawer.closeDrawer(GravityCompat.START);
                     }
                     boolean wasPlaying = true;
                     if(mMediaService.isPlaying()) {
