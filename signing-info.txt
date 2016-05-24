@@ -1,0 +1,5 @@
+Keystore path - AudioBookPlayer\app\UdacityFinalProject\audiokeystore.jks
+Password - audiobook
+
+Alias - AudiobookKey
+Password - audiobook
