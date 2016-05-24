@@ -1,4 +1,4 @@
-Keystore path - AudioBookPlayer\app\UdacityFinalProject\audiokeystore.jks
+Keystore path - AudioBookPlayer\app\audiokeystore.jks
 Password - audiobook
 
 Alias - AudiobookKey
