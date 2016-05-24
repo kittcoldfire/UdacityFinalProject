@@ -31,6 +31,7 @@ import android.support.v4.media.session.PlaybackStateCompat;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.RemoteViews;
 
 import com.etechtour.audiobookplayer.PlayerActivity;
@@ -54,10 +55,14 @@ public class MediaPlayerService extends MediaBrowserServiceCompat implements Med
     private int mCurrentTrackInCursor; //the position in the cursor we are currently on
     private int mCurrentTrackProgress; //the position in the track they have listened until
     private int mCurrentAlbumID;
+
+    private String mCurrentAlbum, mCurrentTitle, mCurrentArtURL;
+    private Bitmap mCurrentArtwork;
+
     private Cursor mCursor;
     private final IBinder mediaBind = new MediaBinder();
 
-    public static final String MAIN_ACTION = "com.etechtour.audiobook.notification.action.main";
+    public static final String UPDATE_ACTION = "com.etechtour.audiobook.notification.action.update";
     public static final String REMOVE_ACTION = "com.etechtour.audiobook.notification.action.remove";
     public static final String PREV_ACTION = "com.etechtour.audiobook.notification.action.prev";
     public static final String PLAY_ACTION = "com.etechtour.audiobook.notification.action.play";
@@ -460,11 +465,11 @@ public class MediaPlayerService extends MediaBrowserServiceCompat implements Med
 
     public void updateMetaData() {
         if(mCursor != null) {
-            String title = mCursor.getString(mCursor.getColumnIndex(AudioBookContract.AudioBookEntry.TAC_COLUMN_TITLE));
-            String album = mCursor.getString(mCursor.getColumnIndex(AudioBookContract.AudioBookEntry.TAC_COLUMN_ALBUM));
+            mCurrentTitle = mCursor.getString(mCursor.getColumnIndex(AudioBookContract.AudioBookEntry.TAC_COLUMN_TITLE));
+            mCurrentAlbum = mCursor.getString(mCursor.getColumnIndex(AudioBookContract.AudioBookEntry.TAC_COLUMN_ALBUM));
             final MediaMetadataCompat.Builder metadataBuilder = new MediaMetadataCompat.Builder();
-            metadataBuilder.putString(MediaMetadataCompat.METADATA_KEY_TITLE, title);
-            metadataBuilder.putString(MediaMetadataCompat.METADATA_KEY_ALBUM, album);
+            metadataBuilder.putString(MediaMetadataCompat.METADATA_KEY_TITLE, mCurrentTitle);
+            metadataBuilder.putString(MediaMetadataCompat.METADATA_KEY_ALBUM, mCurrentAlbum);
             metadataBuilder.putString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID, mCursor.getString(mCursor.getColumnIndex(AudioBookContract.AudioBookEntry.TAC_COLUMN_ALBUM_ID)));
             metadataBuilder.putString(MediaMetadataCompat.METADATA_KEY_ARTIST, mCursor.getString(mCursor.getColumnIndex(AudioBookContract.AudioBookEntry.TAC_COLUMN_ARTIST)));
             metadataBuilder.putLong(MediaMetadataCompat.METADATA_KEY_DURATION, mCursor.getLong(mCursor.getColumnIndex(AudioBookContract.AudioBookEntry.TAC_COLUMN_DURATION)));
@@ -484,6 +489,7 @@ public class MediaPlayerService extends MediaBrowserServiceCompat implements Med
 
             if(b != null) {
                 metadataBuilder.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, b);
+                mCurrentArtwork = b;
             }
             //metadataBuilder.putBitmap(MediaMetadataCompat.METADATA_KEY_ART, b);
             metadataBuilder.putLong(MediaMetadataCompat.METADATA_KEY_NUM_TRACKS, mCursor.getCount());
@@ -493,7 +499,7 @@ public class MediaPlayerService extends MediaBrowserServiceCompat implements Med
 
             mMediaSession.setMetadata(mMediaMetadata);
 
-            updateWidgets(title, album, b);
+            updateWidgets(mCurrentTitle, mCurrentAlbum, b);
         }
     }
 
@@ -509,6 +515,8 @@ public class MediaPlayerService extends MediaBrowserServiceCompat implements Med
                         resumePlayback();
                     }
                 }
+            } else if (action.equals(UPDATE_ACTION)) {
+                updateWidgets(mCurrentTitle, mCurrentAlbum, mCurrentArtwork);
             } else {
                 Intent i = new Intent(getApplicationContext(), PlayerActivity.class);
                 //If the media player has been garbage recycled launch the app to make sure everything is initialized
@@ -529,6 +537,10 @@ public class MediaPlayerService extends MediaBrowserServiceCompat implements Med
                 views.setTextViewText(R.id.widget_file, title);
                 views.setImageViewBitmap(R.id.widget_art, b);
             }
+
+            views.setViewVisibility(R.id.widget_button, View.VISIBLE);
+            views.setViewVisibility(R.id.widget_art, View.VISIBLE);
+            views.setViewVisibility(R.id.widget_file, View.VISIBLE);
 
             if(mState == PlaybackStateCompat.STATE_PLAYING) {
                 views.setImageViewResource(R.id.widget_button, R.drawable.pause_white);

@@ -67,7 +67,10 @@
                 <action android:name="android.media.browse.MediaBrowserService" />
             </intent-filter>
             <intent-filter>
-                <action android:name="com.etechtour.audiobook.notification.action.pla" />
+                <action android:name="com.etechtour.audiobook.notification.action.play" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.etechtour.audiobook.notification.action.update" />
             </intent-filter>
         </service>
 

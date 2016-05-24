@@ -38,6 +38,8 @@
                 android:textSize="20sp"
                 android:text="Title"
                 android:textColor="@color/white"
+                android:singleLine="true"
+                android:marqueeRepeatLimit="marquee_forever"
                 />
             <TextView
                 android:id="@+id/widget_file"
@@ -54,7 +56,7 @@
             android:layout_height="match_parent"
             android:src="@drawable/play_white"
             android:background="@android:color/transparent"
-            android:layout_weight="1"
+            android:layout_weight=".5"
             />
     </LinearLayout>
 </FrameLayout>

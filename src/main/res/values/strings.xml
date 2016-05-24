@@ -54,4 +54,7 @@
     <string name="cd_rewindsmall">Rewind 10 seconds</string>
     <string name="cd_fastforwardbig">Fastforward 1 minute</string>
     <string name="cd_fastforwardsmall">Fastforward 10 seconds</string>
+
+    <!-- Widget -->
+    <string name="widget_empty">Open Audiobook Player</string>
 </resources>
